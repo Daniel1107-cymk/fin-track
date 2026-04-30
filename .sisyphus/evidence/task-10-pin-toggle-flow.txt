@@ -1,0 +1,23 @@
+Task-10: PIN Toggle Setup Flow
+===============================
+Status: COMPLETED
+Date: 2026-04-30
+
+Changes Made:
+- File: lib/features/settings/settings_screen.dart
+- Added import: '../security/pin_setup_screen.dart'
+- Modified `onPinChanged` handler in `_SettingsScreenState.build()`:
+
+Behavior:
+1. PIN toggle ON + no PIN exists → navigates to PinSetupScreen via Navigator.push
+   - result == true → togglePin(true) enables PIN
+   - result == false/null → return (toggle stays OFF)
+2. PIN toggle ON + PIN already exists → togglePin(true) directly
+3. PIN toggle OFF → togglePin(false) (keeps PIN hash stored)
+4. Biometric toggle unchanged → just calls toggleBiometric(value)
+
+Key Implementation Details:
+- Uses async handler for Navigator.push<bool>(MaterialPageRoute(...))
+- Reads hasPinSet from ref.read(securitySettingsProvider) before deciding
+- Does NOT clear PIN hash when toggle is disabled
+- Does NOT trigger navigation for biometric toggle
