@@ -25,6 +25,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _isDarkTheme = true;
+  bool _isNavigatingToPinSetup = false;
 
   void _showClearDataConfirmation() {
     showDialog(
@@ -81,6 +82,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       });
       ref.invalidate(transactionsProvider);
       ref.invalidate(walletsProvider);
+      ref.read(securitySettingsProvider.notifier).clearAll();
+      ref.invalidate(securitySettingsProvider);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -190,21 +193,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             const SizedBox(height: AppSpacing.md),
             _SecuritySection(
-              isBiometricEnabled: ref.watch(securitySettingsProvider).biometricEnabled,
+              isBiometricEnabled: ref.watch(securitySettingsProvider).valueOrNull?.biometricEnabled ?? false,
               onBiometricChanged: (value) {
                 ref.read(securitySettingsProvider.notifier).toggleBiometric(value);
               },
-              pinEnabled: ref.watch(securitySettingsProvider).pinEnabled,
+              pinEnabled: ref.watch(securitySettingsProvider).valueOrNull?.pinEnabled ?? false,
               onPinChanged: (value) async {
                 if (value) {
-                  final hasPinSet = ref.read(securitySettingsProvider).hasPinSet;
+                  final hasPinSet = ref.read(securitySettingsProvider).valueOrNull?.hasPinSet ?? false;
                   if (!hasPinSet) {
-                    final result = await Navigator.of(context).push<bool>(
-                      MaterialPageRoute(
-                        builder: (_) => const PinSetupScreen(),
-                      ),
-                    );
-                    if (result != true) return;
+                    if (_isNavigatingToPinSetup) return;
+                    _isNavigatingToPinSetup = true;
+                    try {
+                      final result = await Navigator.of(context).push<bool>(
+                        MaterialPageRoute(
+                          builder: (_) => const PinSetupScreen(),
+                        ),
+                      );
+                      if (result != true) return;
+                    } finally {
+                      _isNavigatingToPinSetup = false;
+                    }
                   }
                   await ref.read(securitySettingsProvider.notifier).togglePin(true);
                 } else {
@@ -254,27 +263,6 @@ class _PreferencesSection extends StatelessWidget {
               ),
             ),
           ),
-          _SettingsRow(
-            icon: Iconsax.wallet,
-            title: 'Default Wallet',
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Cash',
-                  style: AppTypography.bodyM.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                const Icon(
-                  Iconsax.arrow_right_3,
-                  size: 16,
-                  color: AppColors.textMuted,
-                ),
-              ],
-            ),
-          ),
           _SettingsToggleRow(
             icon: Iconsax.moon,
             title: 'Dark Theme',
@@ -288,7 +276,7 @@ class _PreferencesSection extends StatelessWidget {
   }
 }
 
-class _SecuritySection extends StatelessWidget {
+class _SecuritySection extends ConsumerWidget {
   final bool isBiometricEnabled;
   final ValueChanged<bool> onBiometricChanged;
   final bool pinEnabled;
@@ -302,7 +290,13 @@ class _SecuritySection extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final biometricAvailable = ref.watch(biometricAvailableProvider);
+
+    final biometricSubtitle = biometricAvailable.value == true
+        ? 'Use fingerprint or face ID to open app'
+        : 'Not available on this device';
+
     return GlassCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,9 +306,11 @@ class _SecuritySection extends StatelessWidget {
           _SettingsToggleRow(
             icon: Iconsax.finger_scan,
             title: 'Biometric Lock',
-            subtitle: 'Use fingerprint or face ID to open app',
+            subtitle: biometricSubtitle,
             value: isBiometricEnabled,
-            onChanged: onBiometricChanged,
+            onChanged: biometricAvailable.value == true
+                ? onBiometricChanged
+                : null,
           ),
           _SettingsToggleRow(
             icon: Iconsax.lock,
@@ -445,14 +441,14 @@ class _SettingsToggleRow extends StatelessWidget {
   final String title;
   final String? subtitle;
   final bool value;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
 
   const _SettingsToggleRow({
     required this.icon,
     required this.title,
     this.subtitle,
     required this.value,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
