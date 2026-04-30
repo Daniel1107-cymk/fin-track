@@ -1,0 +1,14 @@
+Task 6: Create BiometricService wrapping LocalAuthentication
+
+Changes Made:
+1. Created lib/core/services/biometric_service.dart
+   - BiometricResult enum: success, failure, notAvailable, notEnrolled, lockedOut, error
+   - BiometricService singleton class (factory + private constructor + static _instance)
+   - Private LocalAuthentication _auth instance
+   - Future<bool> isAvailable() — checks canCheckBiometrics && isDeviceSupported
+   - Future<List<BiometricType>> getAvailableBiometrics() — delegates to auth
+   - Future<BiometricResult> authenticate({required String reason}) — wraps auth.authenticate with biometricOnly: false, maps PlatformException codes to BiometricResult values using local_auth/error_codes.dart constants
+   - All methods catch PlatformException gracefully
+
+Files:
+- lib/core/services/biometric_service.dart (NEW)
