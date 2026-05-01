@@ -119,11 +119,11 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         elevation: 0,
-        title: Text('Analytics', style: AppTypography.headingL),
+        title: Text('Analytics', style: AppTypography.headingL(context)),
         centerTitle: true,
       ),
       body: transactionsAsync.when(
@@ -131,7 +131,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
           child: CircularProgressIndicator(color: AppColors.primary),
         ),
         error: (error, _) => Center(
-          child: Text('Error: $error', style: AppTypography.bodyM),
+          child: Text('Error: $error', style: AppTypography.bodyM(context)),
         ),
         data: (transactions) {
           return categoriesAsync.when(
@@ -139,7 +139,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
               child: CircularProgressIndicator(color: AppColors.primary),
             ),
             error: (error, _) => Center(
-              child: Text('Error: $error', style: AppTypography.bodyM),
+              child: Text('Error: $error', style: AppTypography.bodyM(context)),
             ),
             data: (categories) {
               final filtered = _filterByMonth(transactions);
@@ -225,16 +225,16 @@ class _MonthPicker extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: const Icon(Iconsax.arrow_left_2, color: AppColors.textPrimary),
+            icon: Icon(Iconsax.arrow_left_2, color: AppColors.txt(context)),
             onPressed: onPrevious,
             splashRadius: 20,
           ),
           Text(
             DateHelper.formatMonthYear(selectedMonth),
-            style: AppTypography.headingM,
+            style: AppTypography.headingM(context),
           ),
           IconButton(
-            icon: const Icon(Iconsax.arrow_right_2, color: AppColors.textPrimary),
+            icon: Icon(Iconsax.arrow_right_2, color: AppColors.txt(context)),
             onPressed: onNext,
             splashRadius: 20,
           ),
@@ -305,13 +305,13 @@ class _SummaryCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTypography.bodyS),
+          Text(label, style: AppTypography.bodyS(context)),
           const SizedBox(height: AppSpacing.xs),
           AmountText(
             amount: amount.abs(),
             isIncome: amount >= 0,
             compact: true,
-            style: AppTypography.headingS,
+            style: AppTypography.headingS(context),
           ),
         ],
       ),
@@ -340,8 +340,8 @@ class _ExpenseDonutSection extends StatelessWidget {
           child: Center(
             child: Text(
               'No expenses this month',
-              style: AppTypography.bodyM.copyWith(
-                color: AppColors.textMuted,
+              style: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txtMut(context),
               ),
             ),
           ),
@@ -361,7 +361,7 @@ class _ExpenseDonutSection extends StatelessWidget {
         value: amount,
         title: percentage >= 5 ? '${percentage.toStringAsFixed(0)}%' : '',
         radius: 50,
-        titleStyle: AppTypography.bodyS.copyWith(
+        titleStyle: AppTypography.bodyS(context).copyWith(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 11,
@@ -374,7 +374,7 @@ class _ExpenseDonutSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Expense Breakdown', style: AppTypography.headingM),
+          Text('Expense Breakdown', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.md),
           SizedBox(
             height: 200,
@@ -393,14 +393,14 @@ class _ExpenseDonutSection extends StatelessWidget {
                   children: [
                     Text(
                       'Total',
-                      style: AppTypography.bodyS.copyWith(
-                        color: AppColors.textMuted,
+                      style: AppTypography.bodyS(context).copyWith(
+                        color: AppColors.txtMut(context),
                       ),
                     ),
                     Text(
                       CurrencyFormatter.formatCompact(totalExpense),
-                      style: AppTypography.headingS.copyWith(
-                        color: AppColors.textPrimary,
+                      style: AppTypography.headingS(context).copyWith(
+                        color: AppColors.txt(context),
                       ),
                     ),
                   ],
@@ -458,13 +458,13 @@ class _CategoryLegend extends StatelessWidget {
               Expanded(
                 child: Text(
                   category.name,
-                  style: AppTypography.bodyM,
+                  style: AppTypography.bodyM(context),
                 ),
               ),
               Text(
                 CurrencyFormatter.formatCompact(amount),
-                style: AppTypography.bodyM.copyWith(
-                  color: AppColors.textSecondary,
+                style: AppTypography.bodyM(context).copyWith(
+                  color: AppColors.txtSec(context),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
@@ -472,8 +472,8 @@ class _CategoryLegend extends StatelessWidget {
                 width: 48,
                 child: Text(
                   '${percentage.toStringAsFixed(1)}%',
-                  style: AppTypography.bodyS.copyWith(
-                    color: AppColors.textMuted,
+                  style: AppTypography.bodyS(context).copyWith(
+                    color: AppColors.txtMut(context),
                   ),
                   textAlign: TextAlign.right,
                 ),
@@ -511,7 +511,7 @@ class _MonthlyBarChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Monthly Overview', style: AppTypography.headingM),
+          Text('Monthly Overview', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.md),
           SizedBox(
             height: 220,
@@ -526,7 +526,7 @@ class _MonthlyBarChart extends StatelessWidget {
                       final label = rodIndex == 0 ? 'Income' : 'Expense';
                       return BarTooltipItem(
                         '$label\n${CurrencyFormatter.formatCompact(rod.toY)}',
-                        AppTypography.bodyS.copyWith(color: Colors.white),
+                        AppTypography.bodyS(context).copyWith(color: Colors.white),
                       );
                     },
                   ),
@@ -546,8 +546,8 @@ class _MonthlyBarChart extends StatelessWidget {
                           meta: meta,
                           child: Text(
                             _monthShort(month),
-                            style: AppTypography.bodyS.copyWith(
-                              color: AppColors.textMuted,
+                            style: AppTypography.bodyS(context).copyWith(
+                              color: AppColors.txtMut(context),
                             ),
                           ),
                         );
@@ -563,8 +563,8 @@ class _MonthlyBarChart extends StatelessWidget {
                           meta: meta,
                           child: Text(
                             CurrencyFormatter.formatCompact(value),
-                            style: AppTypography.bodyS.copyWith(
-                              color: AppColors.textMuted,
+                            style: AppTypography.bodyS(context).copyWith(
+                              color: AppColors.txtMut(context),
                               fontSize: 10,
                             ),
                           ),
@@ -585,7 +585,7 @@ class _MonthlyBarChart extends StatelessWidget {
                   drawVerticalLine: false,
                   horizontalInterval: adjustedMaxY / 5,
                   getDrawingHorizontalLine: (value) => FlLine(
-                    color: AppColors.borderSubtle,
+                    color: AppColors.bdr(context),
                     strokeWidth: 1,
                   ),
                 ),
@@ -661,7 +661,7 @@ class _ChartLegendDot extends StatelessWidget {
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: AppSpacing.xs),
-        Text(label, style: AppTypography.bodyS),
+        Text(label, style: AppTypography.bodyS(context)),
       ],
     );
   }

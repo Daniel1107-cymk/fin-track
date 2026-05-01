@@ -51,7 +51,7 @@ class AppButton extends StatelessWidget {
             ],
             Text(
               label,
-              style: AppTypography.labelBold.copyWith(
+              style: AppTypography.labelBold(context).copyWith(
                 color: isOutlined ? AppColors.primary : Colors.white,
               ),
             ),

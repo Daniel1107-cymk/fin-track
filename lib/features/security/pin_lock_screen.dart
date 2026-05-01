@@ -166,7 +166,7 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         body: SafeArea(
           child: Column(
             children: [
@@ -220,8 +220,8 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
   Widget _buildTitle() {
     return Text(
       'Enter PIN to unlock',
-      style: AppTypography.headingL.copyWith(
-        color: AppColors.textPrimary,
+      style: AppTypography.headingL(context).copyWith(
+        color: AppColors.txt(context),
       ),
     );
   }
@@ -249,7 +249,7 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
               shape: BoxShape.circle,
               color: isFilled ? AppColors.primary : Colors.transparent,
               border: Border.all(
-                color: isFilled ? AppColors.primary : AppColors.textMuted,
+                color: isFilled ? AppColors.primary : AppColors.txtMut(context),
                 width: 2,
               ),
             ),
@@ -268,7 +268,7 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
         child: Text(
           'Too many attempts. Try again in $_cooldownSeconds seconds.',
           textAlign: TextAlign.center,
-          style: AppTypography.bodyM.copyWith(
+          style: AppTypography.bodyM(context).copyWith(
             color: AppColors.danger,
           ),
         ),
@@ -278,7 +278,7 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
     if (_errorMessage != null) {
       return Text(
         _errorMessage!,
-        style: AppTypography.bodyM.copyWith(
+        style: AppTypography.bodyM(context).copyWith(
           color: AppColors.danger,
         ),
       );
@@ -312,9 +312,9 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
       children: digits.map((d) {
         if (d == 'backspace') {
           return _buildKeypadButton(
-            child: const Icon(
+            child: Icon(
               Icons.backspace_outlined,
-              color: AppColors.textSecondary,
+              color: AppColors.txtSec(context),
               size: 24,
             ),
             onTap: _onBackspacePressed,
@@ -326,8 +326,8 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
         return _buildKeypadButton(
           child: Text(
             d,
-            style: AppTypography.headingL.copyWith(
-              color: AppColors.textPrimary,
+            style: AppTypography.headingL(context).copyWith(
+              color: AppColors.txt(context),
               fontSize: 28,
             ),
           ),
@@ -347,10 +347,10 @@ class _PinLockScreenState extends ConsumerState<PinLockScreen>
         width: 72,
         height: 72,
         decoration: BoxDecoration(
-          color: AppColors.surfaceElevated,
+          color: AppColors.sfElevated(context),
           borderRadius: BorderRadius.circular(AppRadius.button),
           border: Border.all(
-            color: AppColors.borderSubtle,
+            color: AppColors.bdr(context),
             width: 1,
           ),
         ),

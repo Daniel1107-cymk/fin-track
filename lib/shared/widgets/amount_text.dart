@@ -20,7 +20,7 @@ class AmountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = amount == 0
-        ? AppColors.textSecondary
+        ? AppColors.txtSec(context)
         : isIncome
             ? AppColors.secondary
             : AppColors.danger;
@@ -31,7 +31,7 @@ class AmountText extends StatelessWidget {
 
     return Text(
       text,
-      style: (style ?? AppTypography.bodyL).copyWith(color: color),
+      style: (style ?? AppTypography.bodyL(context)).copyWith(color: color),
     );
   }
 }

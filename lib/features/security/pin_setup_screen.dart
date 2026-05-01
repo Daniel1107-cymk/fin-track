@@ -99,7 +99,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
     final currentPin = _step == 0 ? _pin : _confirmPin;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -129,13 +129,13 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         children: [
           IconButton(
             onPressed: _onCancel,
-            icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+            icon: Icon(Icons.arrow_back, color: AppColors.txt(context)),
             splashRadius: 20,
           ),
           Expanded(
             child: Text(
               _step == 0 ? 'Create PIN' : 'Confirm PIN',
-              style: AppTypography.headingL,
+              style: AppTypography.headingL(context),
               textAlign: TextAlign.center,
             ),
           ),
@@ -162,7 +162,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
             shape: BoxShape.circle,
             color: filled ? AppColors.primary : Colors.transparent,
             border: Border.all(
-              color: filled ? AppColors.primary : AppColors.textMuted,
+              color: filled ? AppColors.primary : AppColors.txtMut(context),
               width: 2,
             ),
           ),
@@ -179,7 +179,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
         child: Text(
           _errorMessage!,
-          style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+          style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
           textAlign: TextAlign.center,
         ),
       );
@@ -191,7 +191,7 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
         _step == 0
             ? 'Create your 6-digit PIN'
             : 'Confirm your 6-digit PIN',
-        style: AppTypography.bodyM.copyWith(color: AppColors.textSecondary),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.txtSec(context)),
         textAlign: TextAlign.center,
       ),
     );
@@ -242,13 +242,13 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       child: TextButton(
         onPressed: () => _onDigitPressed(digit),
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.textPrimary,
-          backgroundColor: AppColors.surface,
+          foregroundColor: AppColors.txt(context),
+          backgroundColor: AppColors.sf(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
         ),
-        child: Text(digit, style: AppTypography.headingM),
+        child: Text(digit, style: AppTypography.headingM(context)),
       ),
     );
   }
@@ -260,8 +260,8 @@ class _PinSetupScreenState extends ConsumerState<PinSetupScreen> {
       child: TextButton(
         onPressed: _onBackspace,
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.textSecondary,
-          backgroundColor: AppColors.surface,
+          foregroundColor: AppColors.txtSec(context),
+          backgroundColor: AppColors.sf(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),

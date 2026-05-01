@@ -20,10 +20,10 @@ class WalletsScreen extends ConsumerWidget {
     final walletsAsync = ref.watch(walletsProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       appBar: AppBar(
-        title: Text('Wallets', style: AppTypography.headingL),
-        backgroundColor: AppColors.background,
+        title: Text('Wallets', style: AppTypography.headingL(context)),
+        backgroundColor: AppColors.bg(context),
         elevation: 0,
         centerTitle: false,
       ),
@@ -40,14 +40,14 @@ class WalletsScreen extends ConsumerWidget {
               const SizedBox(height: AppSpacing.md),
               Text(
                 'Failed to load wallets',
-                style: AppTypography.bodyL.copyWith(
+                style: AppTypography.bodyL(context).copyWith(
                   color: AppColors.danger,
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 error.toString(),
-                style: AppTypography.bodyS,
+                style: AppTypography.bodyS(context),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -68,22 +68,22 @@ class WalletsScreen extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Iconsax.wallet,
-              color: AppColors.textMuted,
+              color: AppColors.txtMut(context),
               size: 64,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'No wallets yet',
-              style: AppTypography.headingM.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.headingM(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               'Add your first wallet to get started',
-              style: AppTypography.bodyS,
+              style: AppTypography.bodyS(context),
             ),
           ],
         ),
@@ -137,13 +137,13 @@ class WalletsScreen extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              backgroundColor: AppColors.surface,
+              backgroundColor: AppColors.sf(context),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.modal),
               ),
               title: Text(
                 'New Wallet',
-                style: AppTypography.headingM,
+                style: AppTypography.headingM(context),
               ),
               content: SingleChildScrollView(
                 child: Column(
@@ -152,14 +152,14 @@ class WalletsScreen extends ConsumerWidget {
                   children: [
                     TextField(
                       controller: nameController,
-                      style: AppTypography.bodyL,
+                      style: AppTypography.bodyL(context),
                       decoration: InputDecoration(
                         hintText: 'Wallet name',
-                        hintStyle: AppTypography.bodyL.copyWith(
-                          color: AppColors.textMuted,
+                        hintStyle: AppTypography.bodyL(context).copyWith(
+                          color: AppColors.txtMut(context),
                         ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.borderSubtle),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.bdr(context)),
                         ),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.primary),
@@ -169,19 +169,19 @@ class WalletsScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.md),
                     TextField(
                       controller: balanceController,
-                      style: AppTypography.bodyL,
+                      style: AppTypography.bodyL(context),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: 'Initial balance',
-                        hintStyle: AppTypography.bodyL.copyWith(
-                          color: AppColors.textMuted,
+                        hintStyle: AppTypography.bodyL(context).copyWith(
+                          color: AppColors.txtMut(context),
                         ),
                         prefixText: 'Rp ',
-                        prefixStyle: AppTypography.bodyL.copyWith(
-                          color: AppColors.textSecondary,
+                        prefixStyle: AppTypography.bodyL(context).copyWith(
+                          color: AppColors.txtSec(context),
                         ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.borderSubtle),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.bdr(context)),
                         ),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.primary),
@@ -191,8 +191,8 @@ class WalletsScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       'Icon',
-                      style: AppTypography.headingS.copyWith(
-                        color: AppColors.textSecondary,
+                      style: AppTypography.headingS(context).copyWith(
+                        color: AppColors.txtSec(context),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
@@ -210,19 +210,19 @@ class WalletsScreen extends ConsumerWidget {
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primary.withValues(alpha: 0.2)
-                                  : AppColors.surfaceElevated,
+                                  : AppColors.sfElevated(context),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
                                 color: isSelected
                                     ? AppColors.primary
-                                    : AppColors.borderSubtle,
+                                    : AppColors.bdr(context),
                               ),
                             ),
                             child: Icon(
                               _getWalletIcon(icon),
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.textSecondary,
+                                  : AppColors.txtSec(context),
                               size: 20,
                             ),
                           ),
@@ -232,8 +232,8 @@ class WalletsScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.md),
                     Text(
                       'Color',
-                      style: AppTypography.headingS.copyWith(
-                        color: AppColors.textSecondary,
+                      style: AppTypography.headingS(context).copyWith(
+                        color: AppColors.txtSec(context),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
@@ -267,8 +267,8 @@ class WalletsScreen extends ConsumerWidget {
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'Cancel',
-                    style: AppTypography.labelBold.copyWith(
-                      color: AppColors.textSecondary,
+                    style: AppTypography.labelBold(context).copyWith(
+                      color: AppColors.txtSec(context),
                     ),
                   ),
                 ),
@@ -292,7 +292,7 @@ class WalletsScreen extends ConsumerWidget {
                   },
                   child: Text(
                     'Create',
-                    style: AppTypography.labelBold.copyWith(
+                    style: AppTypography.labelBold(context).copyWith(
                       color: AppColors.primary,
                     ),
                   ),
@@ -329,7 +329,7 @@ class WalletsScreen extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return Dialog(
-              backgroundColor: AppColors.surface,
+              backgroundColor: AppColors.sf(context),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.modal),
               ),
@@ -341,13 +341,13 @@ class WalletsScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Text('Edit Wallet', style: AppTypography.headingM),
+                        Text('Edit Wallet', style: AppTypography.headingM(context)),
                         const Spacer(),
                         GestureDetector(
                           onTap: () => Navigator.of(dialogContext).pop(),
                           child: Icon(
                             Iconsax.close_circle,
-                            color: AppColors.textMuted,
+                            color: AppColors.txtMut(context),
                             size: 24,
                           ),
                         ),
@@ -362,14 +362,14 @@ class WalletsScreen extends ConsumerWidget {
                           children: [
                             TextField(
                               controller: nameController,
-                              style: AppTypography.bodyL,
+                              style: AppTypography.bodyL(context),
                               decoration: InputDecoration(
                                 hintText: 'Wallet name',
-                                hintStyle: AppTypography.bodyL.copyWith(
-                                  color: AppColors.textMuted,
+                                hintStyle: AppTypography.bodyL(context).copyWith(
+                                  color: AppColors.txtMut(context),
                                 ),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppColors.borderSubtle),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppColors.bdr(context)),
                                 ),
                                 focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: AppColors.primary),
@@ -379,19 +379,19 @@ class WalletsScreen extends ConsumerWidget {
                             const SizedBox(height: AppSpacing.md),
                             TextField(
                               controller: balanceController,
-                              style: AppTypography.bodyL,
+                              style: AppTypography.bodyL(context),
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Balance',
-                                hintStyle: AppTypography.bodyL.copyWith(
-                                  color: AppColors.textMuted,
+                                hintStyle: AppTypography.bodyL(context).copyWith(
+                                  color: AppColors.txtMut(context),
                                 ),
                                 prefixText: 'Rp ',
-                                prefixStyle: AppTypography.bodyL.copyWith(
-                                  color: AppColors.textSecondary,
+                                prefixStyle: AppTypography.bodyL(context).copyWith(
+                                  color: AppColors.txtSec(context),
                                 ),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: AppColors.borderSubtle),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppColors.bdr(context)),
                                 ),
                                 focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: AppColors.primary),
@@ -403,8 +403,8 @@ class WalletsScreen extends ConsumerWidget {
                               children: [
                                 Text(
                                   'Default Wallet',
-                                  style: AppTypography.headingS.copyWith(
-                                    color: AppColors.textSecondary,
+                                  style: AppTypography.headingS(context).copyWith(
+                                    color: AppColors.txtSec(context),
                                   ),
                                 ),
                                 const Spacer(),
@@ -420,8 +420,8 @@ class WalletsScreen extends ConsumerWidget {
                             const SizedBox(height: AppSpacing.md),
                             Text(
                               'Icon',
-                              style: AppTypography.headingS.copyWith(
-                                color: AppColors.textSecondary,
+                              style: AppTypography.headingS(context).copyWith(
+                                color: AppColors.txtSec(context),
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
@@ -438,12 +438,12 @@ class WalletsScreen extends ConsumerWidget {
                                     decoration: BoxDecoration(
                                       color: isSelected
                                           ? _parseColor(selectedColor).withValues(alpha: 0.2)
-                                          : AppColors.surfaceElevated,
+                                          : AppColors.sfElevated(context),
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
                                         color: isSelected
                                             ? _parseColor(selectedColor)
-                                            : AppColors.borderSubtle,
+                                            : AppColors.bdr(context),
                                         width: isSelected ? 2 : 1,
                                       ),
                                     ),
@@ -451,7 +451,7 @@ class WalletsScreen extends ConsumerWidget {
                                       _getWalletIcon(icon),
                                       color: isSelected
                                           ? _parseColor(selectedColor)
-                                          : AppColors.textMuted,
+                                          : AppColors.txtMut(context),
                                       size: 20,
                                     ),
                                   ),
@@ -461,8 +461,8 @@ class WalletsScreen extends ConsumerWidget {
                             const SizedBox(height: AppSpacing.md),
                             Text(
                               'Color',
-                              style: AppTypography.headingS.copyWith(
-                                color: AppColors.textSecondary,
+                              style: AppTypography.headingS(context).copyWith(
+                                color: AppColors.txtSec(context),
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
@@ -511,7 +511,7 @@ class WalletsScreen extends ConsumerWidget {
                           },
                           child: Text(
                             'Delete',
-                            style: AppTypography.labelBold.copyWith(
+                            style: AppTypography.labelBold(context).copyWith(
                               color: AppColors.danger,
                             ),
                           ),
@@ -521,8 +521,8 @@ class WalletsScreen extends ConsumerWidget {
                           onTap: () => Navigator.of(dialogContext).pop(),
                           child: Text(
                             'Cancel',
-                            style: AppTypography.labelBold.copyWith(
-                              color: AppColors.textSecondary,
+                            style: AppTypography.labelBold(context).copyWith(
+                              color: AppColors.txtSec(context),
                             ),
                           ),
                         ),
@@ -563,7 +563,7 @@ class WalletsScreen extends ConsumerWidget {
                             ),
                             child: Text(
                               'Save',
-                              style: AppTypography.labelBold.copyWith(
+                              style: AppTypography.labelBold(context).copyWith(
                                 color: Colors.white,
                               ),
                             ),
@@ -606,11 +606,11 @@ class WalletsScreen extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              backgroundColor: AppColors.surface,
+              backgroundColor: AppColors.sf(context),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.modal),
               ),
-              title: Text('Transfer', style: AppTypography.headingM),
+              title: Text('Transfer', style: AppTypography.headingM(context)),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -618,8 +618,8 @@ class WalletsScreen extends ConsumerWidget {
                   children: [
                     Text(
                       'From',
-                      style: AppTypography.headingS.copyWith(
-                        color: AppColors.textSecondary,
+                      style: AppTypography.headingS(context).copyWith(
+                        color: AppColors.txtSec(context),
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xs),
@@ -627,8 +627,8 @@ class WalletsScreen extends ConsumerWidget {
                       child: DropdownButton<int>(
                         isExpanded: true,
                         value: fromWalletId,
-                        dropdownColor: AppColors.surfaceElevated,
-                        style: AppTypography.bodyM,
+                        dropdownColor: AppColors.sfElevated(context),
+                        style: AppTypography.bodyM(context),
                         items: wallets.map((w) {
                           return DropdownMenuItem<int>(
                             value: w.id,
@@ -656,8 +656,8 @@ class WalletsScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'To',
-                          style: AppTypography.headingS.copyWith(
-                            color: AppColors.textSecondary,
+                          style: AppTypography.headingS(context).copyWith(
+                            color: AppColors.txtSec(context),
                           ),
                         ),
                         const Spacer(),
@@ -673,7 +673,7 @@ class WalletsScreen extends ConsumerWidget {
                             Iconsax.arrow_swap,
                             color: fromWalletId != null && toWalletId != null
                                 ? AppColors.primary
-                                : AppColors.textMuted,
+                                : AppColors.txtMut(context),
                             size: 20,
                           ),
                         ),
@@ -684,8 +684,8 @@ class WalletsScreen extends ConsumerWidget {
                       child: DropdownButton<int>(
                         isExpanded: true,
                         value: toWalletId,
-                        dropdownColor: AppColors.surfaceElevated,
-                        style: AppTypography.bodyM,
+                        dropdownColor: AppColors.sfElevated(context),
+                        style: AppTypography.bodyM(context),
                         items: wallets.map((w) {
                           return DropdownMenuItem<int>(
                             value: w.id,
@@ -712,19 +712,19 @@ class WalletsScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.md),
                     TextField(
                       controller: amountController,
-                      style: AppTypography.bodyL,
+                      style: AppTypography.bodyL(context),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: 'Amount',
-                        hintStyle: AppTypography.bodyL.copyWith(
-                          color: AppColors.textMuted,
+                        hintStyle: AppTypography.bodyL(context).copyWith(
+                          color: AppColors.txtMut(context),
                         ),
                         prefixText: 'Rp ',
-                        prefixStyle: AppTypography.bodyL.copyWith(
-                          color: AppColors.textSecondary,
+                        prefixStyle: AppTypography.bodyL(context).copyWith(
+                          color: AppColors.txtSec(context),
                         ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.borderSubtle),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.bdr(context)),
                         ),
                         focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: AppColors.primary),
@@ -740,8 +740,8 @@ class WalletsScreen extends ConsumerWidget {
                         onPressed: () => Navigator.of(dialogContext).pop(),
                         child: Text(
                           'Cancel',
-                          style: AppTypography.labelBold.copyWith(
-                            color: AppColors.textSecondary,
+                          style: AppTypography.labelBold(context).copyWith(
+                            color: AppColors.txtSec(context),
                           ),
                         ),
                       ),
@@ -783,7 +783,7 @@ class WalletsScreen extends ConsumerWidget {
                         },
                         child: Text(
                           'Transfer',
-                          style: AppTypography.labelBold.copyWith(
+                          style: AppTypography.labelBold(context).copyWith(
                             color: AppColors.primary,
                           ),
                         ),
@@ -859,13 +859,13 @@ class _WalletCard extends StatelessWidget {
                   vertical: 2,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
+                  color: AppColors.sfElevated(context),
                   borderRadius: BorderRadius.circular(AppSpacing.xs),
                 ),
                 child: Text(
                   wallet.currency,
-                  style: AppTypography.bodyS.copyWith(
-                    color: AppColors.textSecondary,
+                  style: AppTypography.bodyS(context).copyWith(
+                    color: AppColors.txtSec(context),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -880,7 +880,7 @@ class _WalletCard extends StatelessWidget {
               children: [
                 Text(
                   wallet.name,
-                  style: AppTypography.headingS,
+                  style: AppTypography.headingS(context),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -888,8 +888,8 @@ class _WalletCard extends StatelessWidget {
                 AmountText(
                   amount: wallet.balance,
                   isIncome: true,
-                  style: AppTypography.headingM.copyWith(
-                    color: AppColors.textPrimary,
+                  style: AppTypography.headingM(context).copyWith(
+                    color: AppColors.txt(context),
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),

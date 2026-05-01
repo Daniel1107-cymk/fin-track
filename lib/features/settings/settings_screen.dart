@@ -14,6 +14,7 @@ import '../../shared/models/category.dart';
 import '../../shared/models/wallet.dart';
 import '../../shared/widgets/glass_card.dart';
 import '../../core/providers/security_settings_provider.dart';
+import '../../core/providers/theme_provider.dart';
 import '../security/pin_setup_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -24,25 +25,24 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  bool _isDarkTheme = true;
   bool _isNavigatingToPinSetup = false;
 
   void _showClearDataConfirmation() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: AppColors.sf(context),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.modal),
         ),
         title: Text(
           'Clear All Data?',
-          style: AppTypography.headingM,
+          style: AppTypography.headingM(context),
         ),
         content: Text(
           'This will permanently delete all your transactions, wallets, and categories. This action cannot be undone.',
-          style: AppTypography.bodyM.copyWith(
-            color: AppColors.textSecondary,
+          style: AppTypography.bodyM(context).copyWith(
+            color: AppColors.txtSec(context),
           ),
         ),
         actions: [
@@ -50,8 +50,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               'Cancel',
-              style: AppTypography.labelBold.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.labelBold(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
           ),
@@ -62,7 +62,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             },
             child: Text(
               'Clear Data',
-              style: AppTypography.labelBold.copyWith(
+              style: AppTypography.labelBold(context).copyWith(
                 color: AppColors.danger,
               ),
             ),
@@ -88,11 +88,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: AppColors.surface,
+            backgroundColor: AppColors.sf(context),
             content: Text(
               'All data cleared',
-              style: AppTypography.bodyM.copyWith(
-                color: AppColors.textPrimary,
+              style: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txt(context),
               ),
             ),
           ),
@@ -105,7 +105,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             backgroundColor: AppColors.danger,
             content: Text(
               'Failed to clear data: $e',
-              style: AppTypography.bodyM,
+              style: AppTypography.bodyM(context),
             ),
           ),
         );
@@ -142,11 +142,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: AppColors.surface,
+            backgroundColor: AppColors.sf(context),
             content: Text(
               'Export ready (${transactions.length} transactions)',
-              style: AppTypography.bodyM.copyWith(
-                color: AppColors.textPrimary,
+              style: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txt(context),
               ),
             ),
           ),
@@ -159,7 +159,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             backgroundColor: AppColors.danger,
             content: Text(
               'Export failed: $e',
-              style: AppTypography.bodyM,
+              style: AppTypography.bodyM(context),
             ),
           ),
         );
@@ -170,11 +170,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         elevation: 0,
-        title: Text('Settings', style: AppTypography.headingL),
+        title: Text('Settings', style: AppTypography.headingL(context)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -186,9 +186,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _PreferencesSection(
-              isDarkTheme: _isDarkTheme,
+              isDarkTheme: ref.watch(themeModeProvider).valueOrNull != ThemeMode.light,
               onThemeChanged: (value) {
-                setState(() => _isDarkTheme = value);
+                ref.read(themeModeProvider.notifier).setThemeMode(
+                  value ? ThemeMode.dark : ThemeMode.light,
+                );
               },
             ),
             const SizedBox(height: AppSpacing.md),
@@ -251,22 +253,22 @@ class _PreferencesSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Preferences', style: AppTypography.headingM),
+          Text('Preferences', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.sm),
           _SettingsRow(
             icon: Iconsax.money,
             title: 'Currency',
             trailing: Text(
               'IDR',
-              style: AppTypography.bodyM.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
           ),
           _SettingsToggleRow(
             icon: Iconsax.moon,
             title: 'Dark Theme',
-            subtitle: 'Currently using dark mode',
+            subtitle: isDarkTheme ? 'Dark mode active' : 'Light mode active',
             value: isDarkTheme,
             onChanged: onThemeChanged,
           ),
@@ -301,7 +303,7 @@ class _SecuritySection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Security', style: AppTypography.headingM),
+          Text('Security', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.sm),
           _SettingsToggleRow(
             icon: Iconsax.finger_scan,
@@ -340,7 +342,7 @@ class _DataSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Data', style: AppTypography.headingM),
+          Text('Data', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.sm),
           _SettingsRow(
             icon: Iconsax.export_1,
@@ -368,15 +370,15 @@ class _AboutSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('About', style: AppTypography.headingM),
+          Text('About', style: AppTypography.headingM(context)),
           const SizedBox(height: AppSpacing.sm),
           _SettingsRow(
             icon: Iconsax.information,
             title: 'App Version',
             trailing: Text(
               '1.0.0',
-              style: AppTypography.bodyM.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
           ),
@@ -418,13 +420,13 @@ class _SettingsRow extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, size: 20, color: titleColor ?? AppColors.textSecondary),
+            Icon(icon, size: 20, color: titleColor ?? AppColors.txtSec(context)),
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(
                 title,
-                style: AppTypography.bodyM.copyWith(
-                  color: titleColor ?? AppColors.textPrimary,
+                style: AppTypography.bodyM(context).copyWith(
+                  color: titleColor ?? AppColors.txt(context),
                 ),
               ),
             ),
@@ -460,18 +462,18 @@ class _SettingsToggleRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: AppColors.textSecondary),
+          Icon(icon, size: 20, color: AppColors.txtSec(context)),
           const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: AppTypography.bodyM),
+                Text(title, style: AppTypography.bodyM(context)),
                 if (subtitle != null)
                   Text(
                     subtitle!,
-                    style: AppTypography.bodyS.copyWith(
-                      color: AppColors.textMuted,
+                    style: AppTypography.bodyS(context).copyWith(
+                      color: AppColors.txtMut(context),
                     ),
                   ),
               ],

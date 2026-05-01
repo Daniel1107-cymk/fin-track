@@ -21,15 +21,15 @@ class BudgetsScreen extends ConsumerWidget {
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Iconsax.arrow_left, color: AppColors.textPrimary),
+          icon: Icon(Iconsax.arrow_left, color: AppColors.txt(context)),
         ),
-        title: Text('Budgets', style: AppTypography.headingL),
+        title: Text('Budgets', style: AppTypography.headingL(context)),
         centerTitle: false,
       ),
       body: SafeArea(
@@ -49,7 +49,7 @@ class BudgetsScreen extends ConsumerWidget {
                   error: (error, _) => Center(
                     child: Text(
                       'Failed to load budgets',
-                      style: AppTypography.bodyM.copyWith(
+                      style: AppTypography.bodyM(context).copyWith(
                         color: AppColors.danger,
                       ),
                     ),
@@ -63,7 +63,7 @@ class BudgetsScreen extends ConsumerWidget {
                     error: (error, _) => Center(
                       child: Text(
                         'Failed to load categories',
-                        style: AppTypography.bodyM.copyWith(
+                        style: AppTypography.bodyM(context).copyWith(
                           color: AppColors.danger,
                         ),
                       ),
@@ -140,11 +140,11 @@ void _showAddBudgetDialog(
       return StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            backgroundColor: AppColors.surface,
+            backgroundColor: AppColors.sf(context),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.modal),
             ),
-            title: Text('Add Budget', style: AppTypography.headingM),
+            title: Text('Add Budget', style: AppTypography.headingM(context)),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -152,8 +152,8 @@ void _showAddBudgetDialog(
                 children: [
                   Text(
                     'Category',
-                    style: AppTypography.headingS.copyWith(
-                      color: AppColors.textSecondary,
+                    style: AppTypography.headingS(context).copyWith(
+                      color: AppColors.txtSec(context),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -161,8 +161,8 @@ void _showAddBudgetDialog(
                     child: DropdownButton<int>(
                       isExpanded: true,
                       value: selectedCategoryId,
-                      dropdownColor: AppColors.surfaceElevated,
-                      style: AppTypography.bodyM,
+                      dropdownColor: AppColors.sfElevated(context),
+                      style: AppTypography.bodyM(context),
                       items: availableCategories.map((c) {
                         return DropdownMenuItem<int>(
                           value: c.id,
@@ -197,26 +197,26 @@ void _showAddBudgetDialog(
                   const SizedBox(height: AppSpacing.md),
                   Text(
                     'Monthly Limit',
-                    style: AppTypography.headingS.copyWith(
-                      color: AppColors.textSecondary,
+                    style: AppTypography.headingS(context).copyWith(
+                      color: AppColors.txtSec(context),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   TextField(
                     controller: amountController,
-                    style: AppTypography.bodyL,
+                    style: AppTypography.bodyL(context),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: 'Amount',
-                      hintStyle: AppTypography.bodyL.copyWith(
-                        color: AppColors.textMuted,
+                      hintStyle: AppTypography.bodyL(context).copyWith(
+                        color: AppColors.txtMut(context),
                       ),
                       prefixText: 'Rp ',
-                      prefixStyle: AppTypography.bodyL.copyWith(
-                        color: AppColors.textSecondary,
+                      prefixStyle: AppTypography.bodyL(context).copyWith(
+                        color: AppColors.txtSec(context),
                       ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.borderSubtle),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.bdr(context)),
                       ),
                       focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: AppColors.primary),
@@ -232,8 +232,8 @@ void _showAddBudgetDialog(
                       onPressed: () => Navigator.of(dialogContext).pop(),
                       child: Text(
                         'Cancel',
-                        style: AppTypography.labelBold.copyWith(
-                          color: AppColors.textSecondary,
+                        style: AppTypography.labelBold(context).copyWith(
+                          color: AppColors.txtSec(context),
                         ),
                       ),
                     ),
@@ -250,7 +250,7 @@ void _showAddBudgetDialog(
                       },
                       child: Text(
                         'Add',
-                        style: AppTypography.labelBold.copyWith(
+                        style: AppTypography.labelBold(context).copyWith(
                           color: AppColors.primary,
                         ),
                       ),
@@ -275,7 +275,7 @@ class _MonthHeader extends StatelessWidget {
       children: [
         Text(
           'Budgets',
-          style: AppTypography.headingL,
+          style: AppTypography.headingL(context),
         ),
         Container(
           padding: const EdgeInsets.symmetric(
@@ -283,9 +283,9 @@ class _MonthHeader extends StatelessWidget {
             vertical: AppSpacing.sm,
           ),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.sf(context),
             borderRadius: BorderRadius.circular(AppRadius.chip),
-            border: Border.all(color: AppColors.borderSubtle),
+            border: Border.all(color: AppColors.bdr(context)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -293,13 +293,13 @@ class _MonthHeader extends StatelessWidget {
               Icon(
                 Iconsax.calendar,
                 size: 16,
-                color: AppColors.textSecondary,
+                color: AppColors.txtSec(context),
               ),
               const SizedBox(width: AppSpacing.sm),
               Text(
                 DateHelper.formatMonthYear(now),
-                style: AppTypography.labelBold.copyWith(
-                  color: AppColors.textSecondary,
+                style: AppTypography.labelBold(context).copyWith(
+                  color: AppColors.txtSec(context),
                 ),
               ),
             ],
@@ -329,20 +329,20 @@ class _BudgetList extends ConsumerWidget {
             Icon(
               Iconsax.wallet,
               size: 80,
-              color: AppColors.textMuted,
+              color: AppColors.txtMut(context),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'No budgets set',
-              style: AppTypography.headingM.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.headingM(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               'Set a budget for each category\nto track your spending',
               textAlign: TextAlign.center,
-              style: AppTypography.bodyS,
+              style: AppTypography.bodyS(context),
             ),
           ],
         ),
@@ -441,13 +441,13 @@ class _BudgetCard extends ConsumerWidget {
                     children: [
                       Text(
                         category.name,
-                        style: AppTypography.headingS,
+                        style: AppTypography.headingS(context),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         '${CurrencyFormatter.format(budget.spentAmount)} / ${CurrencyFormatter.format(budget.limitAmount)}',
-                        style: AppTypography.bodyS.copyWith(
-                          color: AppColors.textSecondary,
+                        style: AppTypography.bodyS(context).copyWith(
+                          color: AppColors.txtSec(context),
                         ),
                       ),
                     ],
@@ -465,7 +465,7 @@ class _BudgetCard extends ConsumerWidget {
                     ),
                     child: Text(
                       'Overspent',
-                      style: AppTypography.bodyS.copyWith(
+                      style: AppTypography.bodyS(context).copyWith(
                         color: AppColors.danger,
                         fontWeight: FontWeight.w600,
                       ),
@@ -474,7 +474,7 @@ class _BudgetCard extends ConsumerWidget {
                 else
                   Text(
                     '${(percentage * 100).toStringAsFixed(0)}%',
-                    style: AppTypography.headingS.copyWith(
+                    style: AppTypography.headingS(context).copyWith(
                       color: progressColor,
                       fontSize: 14,
                     ),
@@ -552,7 +552,7 @@ class _AnimatedProgressBarState extends State<_AnimatedProgressBar>
         return Container(
           height: 8,
           decoration: BoxDecoration(
-            color: AppColors.surfaceElevated,
+            color: AppColors.sfElevated(context),
             borderRadius: BorderRadius.circular(4),
           ),
           child: FractionallySizedBox(

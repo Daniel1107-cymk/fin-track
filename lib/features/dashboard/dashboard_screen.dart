@@ -69,7 +69,7 @@ class DashboardScreen extends ConsumerWidget {
     final budgetsAsync = ref.watch(budgetsProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.md),
@@ -79,31 +79,32 @@ class DashboardScreen extends ConsumerWidget {
               // ── Greeting ──────────────────────────────────────────────
               Text(
                 '${DateHelper.getGreeting()} 👋',
-                style: AppTypography.bodyL.copyWith(
-                  color: AppColors.textSecondary,
+                style: AppTypography.bodyL(context).copyWith(
+                  color: AppColors.txtSec(context),
                 ),
               ),
               const SizedBox(height: AppSpacing.xs),
 
               // ── Net Worth ─────────────────────────────────────────────
-              _buildNetWorth(walletsAsync),
+              _buildNetWorth(context, walletsAsync),
               const SizedBox(height: AppSpacing.lg),
 
               // ── Toggle Pill ────────────────────────────────────────────
-              const _TogglePill(),
+              _TogglePill(),
               const SizedBox(height: AppSpacing.md),
 
               // ── Stat Cards ────────────────────────────────────────────
-              _buildStatCards(transactionsAsync),
+              _buildStatCards(context, transactionsAsync),
               const SizedBox(height: AppSpacing.lg),
 
               // ── Wallet Cards ──────────────────────────────────────────
               _buildSectionTitle(
+                context,
                 'My Wallets',
                 onTap: () => context.push('/wallets'),
               ),
               const SizedBox(height: AppSpacing.sm),
-              _buildWalletCards(walletsAsync),
+              _buildWalletCards(context, walletsAsync),
               const SizedBox(height: AppSpacing.lg),
 
               // ── Budget Progress ───────────────────────────────────────
@@ -121,7 +122,7 @@ class DashboardScreen extends ConsumerWidget {
 
   // ── Net Worth ────────────────────────────────────────────────────────────
 
-  Widget _buildNetWorth(AsyncValue<List<Wallet>> walletsAsync) {
+  Widget _buildNetWorth(BuildContext context, AsyncValue<List<Wallet>> walletsAsync) {
     return walletsAsync.when(
       data: (wallets) {
         final total = wallets.fold(0.0, (sum, w) => sum + w.balance);
@@ -130,13 +131,13 @@ class DashboardScreen extends ConsumerWidget {
           children: [
             Text(
               'Total Net Worth',
-              style: AppTypography.bodyS.copyWith(color: AppColors.textMuted),
+              style: AppTypography.bodyS(context).copyWith(color: AppColors.txtMut(context)),
             ),
             const SizedBox(height: AppSpacing.xs),
             AnimatedNumber(
               value: total,
-              style: AppTypography.displayLarge.copyWith(
-                color: Colors.white,
+              style: AppTypography.displayLarge(context).copyWith(
+                color: AppColors.txt(context),
               ),
             ),
           ],
@@ -147,14 +148,14 @@ class DashboardScreen extends ConsumerWidget {
       ),
       error: (e, _) => Text(
         'Error loading wallets',
-        style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
       ),
     );
   }
 
   // ── Stat Cards ──────────────────────────────────────────────────────────
 
-  Widget _buildStatCards(AsyncValue<List<Transaction>> transactionsAsync) {
+  Widget _buildStatCards(BuildContext context, AsyncValue<List<Transaction>> transactionsAsync) {
     return transactionsAsync.when(
       data: (transactions) {
         final now = DateTime.now();
@@ -170,9 +171,9 @@ class DashboardScreen extends ConsumerWidget {
 
         return Row(
           children: [
-            Expanded(child: _statCard('Income', income, AppColors.secondary)),
+            Expanded(child: _statCard(context, 'Income', income, AppColors.secondary)),
             const SizedBox(width: AppSpacing.md),
-            Expanded(child: _statCard('Expense', expense, AppColors.danger)),
+            Expanded(child: _statCard(context, 'Expense', expense, AppColors.danger)),
           ],
         );
       },
@@ -181,18 +182,18 @@ class DashboardScreen extends ConsumerWidget {
       ),
       error: (e, _) => Text(
         'Error loading stats',
-        style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
       ),
     );
   }
 
-  Widget _statCard(String label, double amount, Color accent) {
+  Widget _statCard(BuildContext context, String label, double amount, Color accent) {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.sf(context),
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: AppColors.borderSubtle),
+        border: Border.all(color: AppColors.bdr(context)),
         boxShadow: [
           BoxShadow(
             color: AppColors.primaryGlow,
@@ -218,14 +219,14 @@ class DashboardScreen extends ConsumerWidget {
               children: [
                 Text(
                   label,
-                  style: AppTypography.bodyS.copyWith(
-                    color: AppColors.textSecondary,
+                  style: AppTypography.bodyS(context).copyWith(
+                    color: AppColors.txtSec(context),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   CurrencyFormatter.formatCompact(amount),
-                  style: AppTypography.headingS.copyWith(color: accent),
+                  style: AppTypography.headingS(context).copyWith(color: accent),
                 ),
               ],
             ),
@@ -237,13 +238,13 @@ class DashboardScreen extends ConsumerWidget {
 
   // ── Wallet Cards ────────────────────────────────────────────────────────
 
-  Widget _buildWalletCards(AsyncValue<List<Wallet>> walletsAsync) {
+  Widget _buildWalletCards(BuildContext context, AsyncValue<List<Wallet>> walletsAsync) {
     return walletsAsync.when(
       data: (wallets) {
         if (wallets.isEmpty) {
           return Text(
             'No wallets yet',
-            style: AppTypography.bodyS.copyWith(color: AppColors.textMuted),
+            style: AppTypography.bodyS(context).copyWith(color: AppColors.txtMut(context)),
           );
         }
         return SizedBox(
@@ -264,7 +265,7 @@ class DashboardScreen extends ConsumerWidget {
       ),
       error: (e, _) => Text(
         'Error loading wallets',
-        style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
       ),
     );
   }
@@ -290,14 +291,14 @@ class DashboardScreen extends ConsumerWidget {
             const Spacer(),
             Text(
               wallet.name,
-              style: AppTypography.bodyS.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.bodyS(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
             const SizedBox(height: 2),
             Text(
               CurrencyFormatter.formatCompact(wallet.balance),
-              style: AppTypography.headingS,
+              style: AppTypography.headingS(context),
             ),
           ],
         ),
@@ -319,6 +320,7 @@ class DashboardScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionTitle(
+                context,
                 'Budget',
                 onTap: () => context.push('/budgets'),
               ),
@@ -326,10 +328,10 @@ class DashboardScreen extends ConsumerWidget {
               if (budgets.isEmpty)
                 Text(
                   'No budgets set',
-                  style: AppTypography.bodyS.copyWith(color: AppColors.textMuted),
+                  style: AppTypography.bodyS(context).copyWith(color: AppColors.txtMut(context)),
                 )
               else
-                ...budgets.take(3).map((b) => _budgetBar(b, categories)),
+                ...budgets.take(3).map((b) => _budgetBar(context, b, categories)),
             ],
           );
         },
@@ -338,7 +340,7 @@ class DashboardScreen extends ConsumerWidget {
         ),
         error: (e, _) => Text(
           'Error loading categories',
-          style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+          style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
         ),
       ),
       loading: () => const Center(
@@ -346,19 +348,19 @@ class DashboardScreen extends ConsumerWidget {
       ),
       error: (e, _) => Text(
         'Error loading budgets',
-        style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
       ),
     );
   }
 
-  Widget _budgetBar(Budget budget, List<Category> categories) {
+  Widget _budgetBar(BuildContext context, Budget budget, List<Category> categories) {
     final category = _findCategory(categories, budget.categoryId);
     final progress =
         budget.limitAmount > 0 ? budget.spentAmount / budget.limitAmount : 0.0;
     final clampedProgress = progress.clamp(0.0, 1.0);
     final color = category != null
         ? _parseColor(category.colorHex)
-        : AppColors.textMuted;
+        : AppColors.txtMut(context);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
@@ -376,12 +378,12 @@ class DashboardScreen extends ConsumerWidget {
               Expanded(
                 child: Text(
                   category?.name ?? 'Unknown',
-                  style: AppTypography.labelBold,
+                  style: AppTypography.labelBold(context),
                 ),
               ),
               Text(
                 '${(progress * 100).toStringAsFixed(0)}%',
-                style: AppTypography.bodyS.copyWith(color: color),
+                style: AppTypography.bodyS(context).copyWith(color: color),
               ),
             ],
           ),
@@ -390,7 +392,7 @@ class DashboardScreen extends ConsumerWidget {
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
               value: clampedProgress,
-              backgroundColor: AppColors.surfaceElevated,
+              backgroundColor: AppColors.sfElevated(context),
               valueColor: AlwaysStoppedAnimation<Color>(color),
               minHeight: 6,
             ),
@@ -414,6 +416,7 @@ class DashboardScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionTitle(
+                context,
                 'Recent Transactions',
                 onTap: () => context.go('/transactions'),
               ),
@@ -421,7 +424,7 @@ class DashboardScreen extends ConsumerWidget {
               if (transactions.isEmpty)
                 Text(
                   'No transactions yet',
-                  style: AppTypography.bodyS.copyWith(color: AppColors.textMuted),
+                  style: AppTypography.bodyS(context).copyWith(color: AppColors.txtMut(context)),
                 )
               else
                 ..._groupByDate(transactions.take(5).toList()).entries.expand(
@@ -433,13 +436,13 @@ class DashboardScreen extends ConsumerWidget {
                           ),
                           child: Text(
                             entry.key,
-                            style: AppTypography.bodyS.copyWith(
-                              color: AppColors.textMuted,
+                            style: AppTypography.bodyS(context).copyWith(
+                              color: AppColors.txtMut(context),
                             ),
                           ),
                         ),
                         ...entry.value.map(
-                          (t) => _transactionRow(t, categories),
+                          (t) => _transactionRow(context, t, categories),
                         ),
                       ],
                     ),
@@ -451,7 +454,7 @@ class DashboardScreen extends ConsumerWidget {
         ),
         error: (e, _) => Text(
           'Error loading categories',
-          style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+          style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
         ),
       ),
       loading: () => const Center(
@@ -459,16 +462,16 @@ class DashboardScreen extends ConsumerWidget {
       ),
       error: (e, _) => Text(
         'Error loading transactions',
-        style: AppTypography.bodyM.copyWith(color: AppColors.danger),
+        style: AppTypography.bodyM(context).copyWith(color: AppColors.danger),
       ),
     );
   }
 
-  Widget _transactionRow(Transaction tx, List<Category> categories) {
+  Widget _transactionRow(BuildContext context, Transaction tx, List<Category> categories) {
     final category = _findCategory(categories, tx.categoryId);
     final color = category != null
         ? _parseColor(category.colorHex)
-        : AppColors.textMuted;
+        : AppColors.txtMut(context);
     final isIncome = tx.type == TransactionType.income;
 
     return Padding(
@@ -495,13 +498,13 @@ class DashboardScreen extends ConsumerWidget {
               children: [
                 Text(
                   category?.name ?? 'Unknown',
-                  style: AppTypography.labelBold,
+                  style: AppTypography.labelBold(context),
                 ),
                 if (tx.note.isNotEmpty)
                   Text(
                     tx.note,
-                    style: AppTypography.bodyS.copyWith(
-                      color: AppColors.textMuted,
+                    style: AppTypography.bodyS(context).copyWith(
+                      color: AppColors.txtMut(context),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -517,16 +520,16 @@ class DashboardScreen extends ConsumerWidget {
 
   // ── Helpers ─────────────────────────────────────────────────────────────
 
-  Widget _buildSectionTitle(String title, {VoidCallback? onTap}) {
+  Widget _buildSectionTitle(BuildContext context, String title, {VoidCallback? onTap}) {
     return Row(
       children: [
-        Text(title, style: AppTypography.headingM),
+        Text(title, style: AppTypography.headingM(context)),
         const Spacer(),
         GestureDetector(
           onTap: onTap,
           child: Text(
             'See all',
-            style: AppTypography.bodyS.copyWith(color: AppColors.primary),
+            style: AppTypography.bodyS(context).copyWith(color: AppColors.primary),
           ),
         ),
       ],
@@ -559,7 +562,7 @@ class _TogglePillState extends State<_TogglePill> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text('This Month', style: AppTypography.headingS),
+        Text('This Month', style: AppTypography.headingS(context)),
         const Spacer(),
         GestureDetector(
           onTap: () => setState(() => _showIncome = true),
@@ -571,18 +574,18 @@ class _TogglePillState extends State<_TogglePill> {
             decoration: BoxDecoration(
               color: _showIncome
                   ? AppColors.secondary
-                  : AppColors.surface,
+                  : AppColors.sf(context),
               borderRadius: BorderRadius.circular(AppRadius.chip),
               border: Border.all(
                 color: _showIncome
                     ? AppColors.secondary
-                    : AppColors.borderSubtle,
+                    : AppColors.bdr(context),
               ),
             ),
             child: Text(
               'Income',
-              style: AppTypography.labelBold.copyWith(
-                color: _showIncome ? Colors.white : AppColors.textSecondary,
+              style: AppTypography.labelBold(context).copyWith(
+                color: _showIncome ? Colors.white : AppColors.txtSec(context),
               ),
             ),
           ),
@@ -598,18 +601,18 @@ class _TogglePillState extends State<_TogglePill> {
             decoration: BoxDecoration(
               color: !_showIncome
                   ? AppColors.danger
-                  : AppColors.surface,
+                  : AppColors.sf(context),
               borderRadius: BorderRadius.circular(AppRadius.chip),
               border: Border.all(
                 color: !_showIncome
                     ? AppColors.danger
-                    : AppColors.borderSubtle,
+                    : AppColors.bdr(context),
               ),
             ),
             child: Text(
               'Expense',
-              style: AppTypography.labelBold.copyWith(
-                color: !_showIncome ? Colors.white : AppColors.textSecondary,
+              style: AppTypography.labelBold(context).copyWith(
+                color: !_showIncome ? Colors.white : AppColors.txtSec(context),
               ),
             ),
           ),

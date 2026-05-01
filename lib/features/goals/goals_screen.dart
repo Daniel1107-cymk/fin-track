@@ -19,7 +19,7 @@ class GoalsScreen extends ConsumerWidget {
     final goalsAsync = ref.watch(goalsProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
@@ -27,7 +27,7 @@ class GoalsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: AppSpacing.lg),
-              Text('Goals', style: AppTypography.headingL),
+              Text('Goals', style: AppTypography.headingL(context)),
               const SizedBox(height: AppSpacing.md),
               Expanded(
                 child: goalsAsync.when(
@@ -39,7 +39,7 @@ class GoalsScreen extends ConsumerWidget {
                   error: (error, _) => Center(
                     child: Text(
                       'Failed to load goals',
-                      style: AppTypography.bodyM.copyWith(
+                      style: AppTypography.bodyM(context).copyWith(
                         color: AppColors.danger,
                       ),
                     ),
@@ -70,20 +70,20 @@ class _GoalsList extends StatelessWidget {
             Icon(
               Iconsax.chart,
               size: 80,
-              color: AppColors.textMuted,
+              color: AppColors.txtMut(context),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'Set your first goal',
-              style: AppTypography.headingM.copyWith(
-                color: AppColors.textSecondary,
+              style: AppTypography.headingM(context).copyWith(
+                color: AppColors.txtSec(context),
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               'Start saving towards something\nthat matters to you',
               textAlign: TextAlign.center,
-              style: AppTypography.bodyS,
+              style: AppTypography.bodyS(context),
             ),
           ],
         ),
@@ -129,7 +129,7 @@ class _GoalCard extends ConsumerWidget {
                   children: [
                     Text(
                       goal.name,
-                      style: AppTypography.headingS,
+                      style: AppTypography.headingS(context),
                     ),
                     if (goal.deadline != null) ...[
                       const SizedBox(height: 4),
@@ -149,12 +149,12 @@ class _GoalCard extends ConsumerWidget {
             children: [
               Text(
                 '${CurrencyFormatter.format(goal.savedAmount)} of ${CurrencyFormatter.format(goal.targetAmount)}',
-                style: AppTypography.bodyS,
+                style: AppTypography.bodyS(context),
               ),
               if (isCompleted)
                 Text(
                   'Completed!',
-                  style: AppTypography.bodyS.copyWith(
+                  style: AppTypography.bodyS(context).copyWith(
                     color: AppColors.secondary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -187,13 +187,13 @@ class _GoalCard extends ConsumerWidget {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: AppColors.surface,
+          backgroundColor: AppColors.sf(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.modal),
           ),
           title: Text(
             'Add Funds to ${goal.name}',
-            style: AppTypography.headingS,
+            style: AppTypography.headingS(context),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -201,8 +201,8 @@ class _GoalCard extends ConsumerWidget {
             children: [
               Text(
                 'Current: ${CurrencyFormatter.format(goal.savedAmount)} / ${CurrencyFormatter.format(goal.targetAmount)}',
-                style: AppTypography.bodyM.copyWith(
-                  color: AppColors.textSecondary,
+                style: AppTypography.bodyM(context).copyWith(
+                  color: AppColors.txtSec(context),
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -211,18 +211,18 @@ class _GoalCard extends ConsumerWidget {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                style: AppTypography.bodyL,
+                style: AppTypography.bodyL(context),
                 decoration: InputDecoration(
                   hintText: 'Enter amount',
-                  hintStyle: AppTypography.bodyL.copyWith(
-                    color: AppColors.textMuted,
+                  hintStyle: AppTypography.bodyL(context).copyWith(
+                    color: AppColors.txtMut(context),
                   ),
                   prefixText: 'Rp ',
-                  prefixStyle: AppTypography.bodyL.copyWith(
-                    color: AppColors.textSecondary,
+                  prefixStyle: AppTypography.bodyL(context).copyWith(
+                    color: AppColors.txtSec(context),
                   ),
                   filled: true,
-                  fillColor: AppColors.surfaceElevated,
+                  fillColor: AppColors.sfElevated(context),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppRadius.button),
                     borderSide: BorderSide.none,
@@ -240,8 +240,8 @@ class _GoalCard extends ConsumerWidget {
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: Text(
                 'Cancel',
-                style: AppTypography.labelBold.copyWith(
-                  color: AppColors.textSecondary,
+                style: AppTypography.labelBold(context).copyWith(
+                  color: AppColors.txtSec(context),
                 ),
               ),
             ),
@@ -257,7 +257,7 @@ class _GoalCard extends ConsumerWidget {
               },
               child: Text(
                 'Add',
-                style: AppTypography.labelBold.copyWith(
+                style: AppTypography.labelBold(context).copyWith(
                   color: AppColors.primary,
                 ),
               ),
@@ -306,7 +306,7 @@ class _DeadlineChip extends StatelessWidget {
         vertical: 2,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated,
+        color: AppColors.sfElevated(context),
         borderRadius: BorderRadius.circular(AppRadius.chip),
       ),
       child: Row(
@@ -315,13 +315,13 @@ class _DeadlineChip extends StatelessWidget {
           Icon(
             Iconsax.calendar,
             size: 12,
-            color: AppColors.textSecondary,
+            color: AppColors.txtSec(context),
           ),
           const SizedBox(width: 4),
           Text(
             DateHelper.formatDateShort(deadline),
-            style: AppTypography.bodyS.copyWith(
-              color: AppColors.textSecondary,
+            style: AppTypography.bodyS(context).copyWith(
+              color: AppColors.txtSec(context),
             ),
           ),
         ],
@@ -351,7 +351,7 @@ class _PercentageBadge extends StatelessWidget {
       ),
       child: Text(
         '${(percentage * 100).toStringAsFixed(0)}%',
-        style: AppTypography.labelBold.copyWith(
+        style: AppTypography.labelBold(context).copyWith(
           color: color,
           fontSize: 12,
         ),
@@ -415,7 +415,7 @@ class _GoalProgressBarState extends State<_GoalProgressBar>
         return Container(
           height: 8,
           decoration: BoxDecoration(
-            color: AppColors.surfaceElevated,
+            color: AppColors.sfElevated(context),
             borderRadius: BorderRadius.circular(4),
           ),
           child: FractionallySizedBox(

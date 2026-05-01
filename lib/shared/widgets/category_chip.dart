@@ -27,16 +27,16 @@ class CategoryChip extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? color.withValues(alpha: 0.2) : AppColors.surface,
+          color: isSelected ? color.withValues(alpha: 0.2) : AppColors.sf(context),
           borderRadius: BorderRadius.circular(AppRadius.chip),
           border: Border.all(
-            color: isSelected ? color : AppColors.borderSubtle,
+            color: isSelected ? color : AppColors.bdr(context),
           ),
         ),
         child: Text(
           label,
-          style: AppTypography.labelBold.copyWith(
-            color: isSelected ? color : AppColors.textSecondary,
+          style: AppTypography.labelBold(context).copyWith(
+            color: isSelected ? color : AppColors.txtSec(context),
           ),
         ),
       ),

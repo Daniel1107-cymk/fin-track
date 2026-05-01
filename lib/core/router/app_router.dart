@@ -94,7 +94,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.surface,
+        color: AppColors.sf(context),
         elevation: 0,
         child: SafeArea(
           child: Padding(
@@ -102,11 +102,11 @@ class ScaffoldWithNavBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(Iconsax.home, 'Home', 0),
-                _buildNavItem(Iconsax.receipt, 'Transactions', 1),
+                _buildNavItem(context, Iconsax.home, 'Home', 0),
+                _buildNavItem(context, Iconsax.receipt, 'Transactions', 1),
                 _buildFAB(context),
-                _buildNavItem(Iconsax.chart, 'Analytics', 2),
-                _buildNavItem(Iconsax.setting, 'Settings', 3),
+                _buildNavItem(context, Iconsax.chart, 'Analytics', 2),
+                _buildNavItem(context, Iconsax.setting, 'Settings', 3),
               ],
             ),
           ),
@@ -115,7 +115,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, int index) {
+  Widget _buildNavItem(BuildContext context, IconData icon, String label, int index) {
     final isSelected = navigationShell.currentIndex == index;
     return GestureDetector(
       onTap: () => navigationShell.goBranch(index),
@@ -124,7 +124,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isSelected ? AppColors.primary : AppColors.textMuted,
+            color: isSelected ? AppColors.primary : AppColors.txtMut(context),
             size: 24,
           ),
         ],

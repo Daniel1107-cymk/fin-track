@@ -113,7 +113,7 @@ class _BiometricLockScreenState extends ConsumerState<BiometricLockScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -132,7 +132,7 @@ class _BiometricLockScreenState extends ConsumerState<BiometricLockScreen> {
                   Text(
                     _message,
                     textAlign: TextAlign.center,
-                    style: AppTypography.headingM.copyWith(
+                    style: AppTypography.headingM(context).copyWith(
                       color: _stateTextColor,
                     ),
                   ),
@@ -170,7 +170,7 @@ class _BiometricLockScreenState extends ConsumerState<BiometricLockScreen> {
       case _AuthState.lockedOut:
         return AppColors.warning;
       default:
-        return AppColors.textPrimary;
+        return AppColors.txt(context);
     }
   }
 }
@@ -214,11 +214,11 @@ class _LogoIcon extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
+      child: Center(
         child: Icon(
           Iconsax.wallet,
           size: 40,
-          color: AppColors.textPrimary,
+          color: AppColors.txt(context),
         ),
       ),
     );
@@ -299,12 +299,12 @@ class _StatusIcon extends StatelessWidget {
           height: 64,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: AppColors.textMuted.withValues(alpha: 0.15),
+            color: AppColors.txtMut(context).withValues(alpha: 0.15),
           ),
-          child: const Icon(
+          child: Icon(
             Iconsax.finger_scan,
             size: 36,
-            color: AppColors.textMuted,
+            color: AppColors.txtMut(context),
           ),
         ),
     };
@@ -324,14 +324,14 @@ class _RetryButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textPrimary,
+          foregroundColor: AppColors.txt(context),
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
           elevation: 0,
         ),
-        child: Text('Try Again', style: AppTypography.labelBold),
+        child: Text('Try Again', style: AppTypography.labelBold(context)),
       ),
     );
   }
@@ -349,14 +349,14 @@ class _PinFallbackButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.textSecondary,
-          side: BorderSide(color: AppColors.borderSubtle, width: 1.5),
+          foregroundColor: AppColors.txtSec(context),
+          side: BorderSide(color: AppColors.bdr(context), width: 1.5),
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
         ),
-        child: Text('Use PIN Instead', style: AppTypography.labelBold),
+        child: Text('Use PIN Instead', style: AppTypography.labelBold(context)),
       ),
     );
   }

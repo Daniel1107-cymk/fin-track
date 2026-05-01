@@ -60,7 +60,7 @@ class TransactionsScreen extends ConsumerWidget {
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +75,7 @@ class TransactionsScreen extends ConsumerWidget {
               ),
               child: Text(
                 'Transactions',
-                style: AppTypography.headingL,
+                style: AppTypography.headingL(context),
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -192,19 +192,19 @@ class _TransactionContentState extends State<_TransactionContent> {
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: TextField(
             onChanged: (value) => setState(() => _searchQuery = value),
-            style: AppTypography.bodyM,
+            style: AppTypography.bodyM(context),
             decoration: InputDecoration(
               hintText: 'Search transactions...',
-              hintStyle: AppTypography.bodyM.copyWith(
-                color: AppColors.textMuted,
+              hintStyle: AppTypography.bodyM(context).copyWith(
+                color: AppColors.txtMut(context),
               ),
-              prefixIcon: const Icon(
+              prefixIcon: Icon(
                 Iconsax.search_normal,
-                color: AppColors.textMuted,
+                color: AppColors.txtMut(context),
                 size: 20,
               ),
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: AppColors.sf(context),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppRadius.button),
                 borderSide: BorderSide.none,
@@ -232,8 +232,8 @@ class _TransactionContentState extends State<_TransactionContent> {
               ? Center(
                   child: Text(
                     'No transactions found',
-                    style: AppTypography.bodyM.copyWith(
-                      color: AppColors.textMuted,
+                    style: AppTypography.bodyM(context).copyWith(
+                      color: AppColors.txtMut(context),
                     ),
                   ),
                 )
@@ -250,8 +250,8 @@ class _TransactionContentState extends State<_TransactionContent> {
                         ),
                         child: Text(
                           entry.key,
-                          style: AppTypography.labelBold.copyWith(
-                            color: AppColors.textSecondary,
+                          style: AppTypography.labelBold(context).copyWith(
+                            color: AppColors.txtSec(context),
                           ),
                         ),
                       ),
@@ -284,16 +284,16 @@ class _TransactionContentState extends State<_TransactionContent> {
         decoration: BoxDecoration(
           color: isSelected
               ? activeColor.withValues(alpha: 0.2)
-              : AppColors.surface,
+              : AppColors.sf(context),
           borderRadius: BorderRadius.circular(AppRadius.chip),
           border: Border.all(
-            color: isSelected ? activeColor : AppColors.borderSubtle,
+            color: isSelected ? activeColor : AppColors.bdr(context),
           ),
         ),
         child: Text(
           label,
-          style: AppTypography.labelBold.copyWith(
-            color: isSelected ? activeColor : AppColors.textSecondary,
+          style: AppTypography.labelBold(context).copyWith(
+            color: isSelected ? activeColor : AppColors.txtSec(context),
           ),
         ),
       ),
@@ -306,7 +306,7 @@ class _TransactionContentState extends State<_TransactionContent> {
     final category = _findCategory(widget.categories, tx.categoryId);
     final color = category != null
         ? _parseColor(category.colorHex)
-        : AppColors.textMuted;
+        : AppColors.txtMut(context);
     final isIncome = tx.type == TransactionType.income;
 
     return Padding(
@@ -330,9 +330,9 @@ class _TransactionContentState extends State<_TransactionContent> {
         child: Container(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.sf(context),
             borderRadius: BorderRadius.circular(AppRadius.card),
-            border: Border.all(color: AppColors.borderSubtle),
+            border: Border.all(color: AppColors.bdr(context)),
           ),
           child: Row(
             children: [
@@ -361,13 +361,13 @@ class _TransactionContentState extends State<_TransactionContent> {
                   children: [
                     Text(
                       category?.name ?? 'Unknown',
-                      style: AppTypography.labelBold,
+                      style: AppTypography.labelBold(context),
                     ),
                     if (tx.note.isNotEmpty)
                       Text(
                         tx.note,
-                        style: AppTypography.bodyS.copyWith(
-                          color: AppColors.textMuted,
+                        style: AppTypography.bodyS(context).copyWith(
+                          color: AppColors.txtMut(context),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -380,7 +380,7 @@ class _TransactionContentState extends State<_TransactionContent> {
               AmountText(
                 amount: tx.amount,
                 isIncome: isIncome,
-                style: AppTypography.headingS,
+                style: AppTypography.headingS(context),
               ),
             ],
           ),

@@ -134,14 +134,14 @@ class _LockGateState extends ConsumerState<LockGate> {
         if (_activeLockScreen == _LockScreen.biometric)
           Positioned.fill(
             child: Material(
-              color: AppColors.background,
+              color: AppColors.bg(context),
               child: BiometricLockWidget(onUnlocked: _onUnlocked),
             ),
           ),
         if (_activeLockScreen == _LockScreen.pin)
           Positioned.fill(
             child: Material(
-              color: AppColors.background,
+              color: AppColors.bg(context),
               child: PinLockWidget(onUnlocked: _onUnlocked),
             ),
           ),
@@ -221,7 +221,7 @@ class _BiometricLockWidgetState extends ConsumerState<BiometricLockWidget> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -342,7 +342,7 @@ class _BiometricLockWidgetState extends ConsumerState<BiometricLockWidget> {
       _AuthState.success => AppColors.secondary,
       _AuthState.failure || _AuthState.error => AppColors.danger,
       _AuthState.lockedOut => AppColors.warning,
-      _ => AppColors.textPrimary,
+      _ => AppColors.txt(context),
     };
   }
 }
@@ -465,7 +465,7 @@ class _PinLockWidgetState extends ConsumerState<PinLockWidget>
     return PopScope(
       canPop: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.bg(context),
         body: SafeArea(
           child: Column(
             children: [
@@ -486,7 +486,7 @@ class _PinLockWidgetState extends ConsumerState<PinLockWidget>
               Text(
                 'Enter PIN',
                 style: TextStyle(
-                  color: AppColors.textPrimary,
+                  color: AppColors.txt(context),
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),
@@ -513,7 +513,7 @@ class _PinLockWidgetState extends ConsumerState<PinLockWidget>
                         shape: BoxShape.circle,
                         color: filled
                             ? AppColors.primary
-                            : AppColors.textMuted.withValues(alpha: 0.3),
+                            : AppColors.txtMut(context).withValues(alpha: 0.3),
                       ),
                     );
                   }),
@@ -572,8 +572,8 @@ class _PinLockWidgetState extends ConsumerState<PinLockWidget>
               ? Icon(
                   Icons.backspace_outlined,
                   color: isDisabled
-                      ? AppColors.textMuted.withValues(alpha: 0.3)
-                      : AppColors.textPrimary,
+                      ? AppColors.txtMut(context).withValues(alpha: 0.3)
+                      : AppColors.txt(context),
                   size: 28,
                 )
               : Text(
@@ -582,8 +582,8 @@ class _PinLockWidgetState extends ConsumerState<PinLockWidget>
                     fontSize: 28,
                     fontWeight: FontWeight.w500,
                     color: isDisabled
-                        ? AppColors.textMuted.withValues(alpha: 0.3)
-                        : AppColors.textPrimary,
+                        ? AppColors.txtMut(context).withValues(alpha: 0.3)
+                        : AppColors.txt(context),
                   ),
                 ),
         ),

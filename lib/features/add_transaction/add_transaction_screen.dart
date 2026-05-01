@@ -87,10 +87,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
+            colorScheme: ColorScheme.dark(
               primary: AppColors.primary,
-              surface: AppColors.surface,
-              onSurface: AppColors.textPrimary,
+              surface: AppColors.sf(context),
+              onSurface: AppColors.txt(context),
             ),
           ),
           child: child!,
@@ -155,7 +155,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.bg(context),
       body: SafeArea(
         child: Column(
           children: [
@@ -181,7 +181,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           width: 40,
           height: 4,
           decoration: BoxDecoration(
-            color: AppColors.textMuted,
+            color: AppColors.txtMut(context),
             borderRadius: BorderRadius.circular(2),
           ),
         ),
@@ -198,7 +198,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       child: Container(
         padding: const EdgeInsets.all(3),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: AppColors.sf(context),
           borderRadius: BorderRadius.circular(AppRadius.chip),
         ),
         child: Row(
@@ -240,8 +240,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           child: Center(
             child: Text(
               label,
-              style: AppTypography.labelBold.copyWith(
-                color: isSelected ? Colors.white : AppColors.textMuted,
+              style: AppTypography.labelBold(context).copyWith(
+                color: isSelected ? Colors.white : AppColors.txtMut(context),
               ),
             ),
           ),
@@ -267,7 +267,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
           children: [
             Text(
               _type == TransactionType.income ? 'Income' : 'Expense',
-              style: AppTypography.bodyS.copyWith(
+              style: AppTypography.bodyS(context).copyWith(
                 color: isActive,
                 letterSpacing: 1.5,
               ),
@@ -275,10 +275,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             const SizedBox(height: AppSpacing.xs),
             Text(
               displayAmount,
-              style: AppTypography.displayLarge.copyWith(
+              style: AppTypography.displayLarge(context).copyWith(
                 color: _amountText == '0'
-                    ? AppColors.textMuted
-                    : AppColors.textPrimary,
+                    ? AppColors.txtMut(context)
+                    : AppColors.txt(context),
               ),
             ),
             if (!_numpadActive)
@@ -286,8 +286,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 padding: const EdgeInsets.only(top: AppSpacing.xs),
                 child: Text(
                   'Tap to enter amount',
-                  style: AppTypography.bodyS.copyWith(
-                    color: AppColors.textMuted,
+                  style: AppTypography.bodyS(context).copyWith(
+                    color: AppColors.txtMut(context),
                   ),
                 ),
               ),
@@ -327,13 +327,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
     final isSpecial = key == '⌫' || key == 'C' || key == '✓';
     final isConfirm = key == '✓';
 
-    Color bgColor = AppColors.surface;
-    Color textColor = AppColors.textPrimary;
+    Color bgColor = AppColors.sf(context);
+    Color textColor = AppColors.txt(context);
     if (key == '⌫') {
-      bgColor = AppColors.surfaceElevated;
+      bgColor = AppColors.sfElevated(context);
       textColor = AppColors.danger;
     } else if (key == 'C') {
-      bgColor = AppColors.surfaceElevated;
+      bgColor = AppColors.sfElevated(context);
       textColor = AppColors.warning;
     } else if (isConfirm) {
       bgColor = AppColors.primary;
@@ -350,14 +350,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             borderRadius: BorderRadius.circular(AppRadius.button),
             border: isConfirm
                 ? null
-                : Border.all(color: AppColors.borderSubtle),
+                : Border.all(color: AppColors.bdr(context)),
           ),
           child: Center(
             child: isConfirm
                 ? const Icon(Iconsax.tick_circle, color: Colors.white, size: 24)
                 : Text(
                     key,
-                    style: AppTypography.headingM.copyWith(
+                    style: AppTypography.headingM(context).copyWith(
                       color: textColor,
                       fontWeight: isSpecial ? FontWeight.w600 : FontWeight.w500,
                     ),
@@ -441,8 +441,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       children: [
         Text(
           'Category',
-          style: AppTypography.headingS.copyWith(
-            color: AppColors.textSecondary,
+          style: AppTypography.headingS(context).copyWith(
+            color: AppColors.txtSec(context),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -481,7 +481,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
             error: (_, __) => Text(
               'Failed to load categories',
-              style: AppTypography.bodyS.copyWith(color: AppColors.danger),
+              style: AppTypography.bodyS(context).copyWith(color: AppColors.danger),
             ),
           ),
         ),
@@ -505,8 +505,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       children: [
         Text(
           'Wallet',
-          style: AppTypography.headingS.copyWith(
-            color: AppColors.textSecondary,
+          style: AppTypography.headingS(context).copyWith(
+            color: AppColors.txtSec(context),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -524,15 +524,15 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   value: _selectedWalletId,
                   hint: Text(
                     'Select wallet',
-                    style: AppTypography.bodyS,
+                    style: AppTypography.bodyS(context),
                   ),
-                  icon: const Icon(
+                  icon: Icon(
                     Iconsax.arrow_down_1,
-                    color: AppColors.textSecondary,
+                    color: AppColors.txtSec(context),
                     size: 18,
                   ),
-                  dropdownColor: AppColors.surfaceElevated,
-                  style: AppTypography.bodyM,
+                  dropdownColor: AppColors.sfElevated(context),
+                  style: AppTypography.bodyM(context),
                   items: wallets.map((wallet) {
                     return DropdownMenuItem<int>(
                       value: wallet.id,
@@ -564,7 +564,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             ),
             error: (_, __) => Text(
               'Error',
-              style: AppTypography.bodyS.copyWith(color: AppColors.danger),
+              style: AppTypography.bodyS(context).copyWith(color: AppColors.danger),
             ),
           ),
         ),
@@ -578,8 +578,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       children: [
         Text(
           'Date',
-          style: AppTypography.headingS.copyWith(
-            color: AppColors.textSecondary,
+          style: AppTypography.headingS(context).copyWith(
+            color: AppColors.txtSec(context),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -595,11 +595,11 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               children: [
                 Text(
                   DateHelper.formatDateShort(_selectedDate),
-                  style: AppTypography.bodyM,
+                  style: AppTypography.bodyM(context),
                 ),
-                const Icon(
+                Icon(
                   Iconsax.calendar,
-                  color: AppColors.textSecondary,
+                  color: AppColors.txtSec(context),
                   size: 18,
                 ),
               ],
@@ -616,22 +616,22 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       children: [
         Text(
           'Note',
-          style: AppTypography.headingS.copyWith(
-            color: AppColors.textSecondary,
+          style: AppTypography.headingS(context).copyWith(
+            color: AppColors.txtSec(context),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
         TextField(
           controller: _noteController,
-          style: AppTypography.bodyL,
+          style: AppTypography.bodyL(context),
           maxLines: 1,
           decoration: InputDecoration(
             hintText: 'Add a note...',
-            hintStyle: AppTypography.bodyL.copyWith(
-              color: AppColors.textMuted,
+            hintStyle: AppTypography.bodyL(context).copyWith(
+              color: AppColors.txtMut(context),
             ),
-            enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.borderSubtle),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: AppColors.bdr(context)),
             ),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: AppColors.primary),
